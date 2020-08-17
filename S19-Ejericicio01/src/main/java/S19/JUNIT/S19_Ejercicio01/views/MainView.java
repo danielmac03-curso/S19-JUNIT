@@ -2,24 +2,22 @@ package S19.JUNIT.S19_Ejercicio01.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MainView extends JFrame{
-	
+		
 	private JPanel contentPane;
-	private String num1 = "0";
-	private String num2 = "0";
+	private String num1 = "";
+	private String num2 = "";
 	private String operator = "";
-	private double result = 0.0;
-	private boolean editFirstNum = true;
-	private boolean error = false;
-	
+	private double result; 
+	private boolean writingFirstNumber = true;
+
 	public MainView() {
 		setTitle("Calculadora");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
-		
+
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -74,7 +72,7 @@ public class MainView extends JFrame{
 		btns[8].setText("7");
 		btns[9].setText("8");
 		btns[10].setText("9");
-		btns[11].setText("*");
+		btns[11].setText("x");
 		btns[12].setText("4");
 		btns[13].setText("5");
 		btns[14].setText("6");
@@ -85,11 +83,11 @@ public class MainView extends JFrame{
 		btns[19].setText("+");
 		btns[20].setText("+/-");
 		btns[21].setText("0");
-		btns[22].setText(",");
+		btns[22].setText(".");
 		btns[23].setText("=");
 		
-		for (int i = 0; i < btns.length; i++) {
-			if (btns[i].getText().equals("%") || btns[i].getText().equals("CE") || btns[i].getText().equals("C") || btns[i].getText().equals("←") || btns[i].getText().equals("1/x") || btns[i].getText().equals("x2") || btns[i].getText().equals("2√x") || btns[i].getText().equals("%") || btns[i].getText().equals("/") || btns[i].getText().equals("*") || btns[i].getText().equals("-") || btns[i].getText().equals("+")) {
+		for (int i = 0; i < btns.length; i++) {		
+			if (btns[i].getText().equals("%") || btns[i].getText().equals("CE") || btns[i].getText().equals("C") || btns[i].getText().equals("←") || btns[i].getText().equals("1/x") || btns[i].getText().equals("x2") || btns[i].getText().equals("2√x") || btns[i].getText().equals("%") || btns[i].getText().equals("/") || btns[i].getText().equals("x") || btns[i].getText().equals("-") || btns[i].getText().equals("+")) {
 				btns[i].setBackground( new Color(240, 240, 240));
 			}else if(btns[i].getText().equals("=")) {
 				btns[i].setBackground( new Color(154, 186, 219));
@@ -104,92 +102,90 @@ public class MainView extends JFrame{
 				JButton tmpBtn = (JButton) e.getSource();
 				String btnText = tmpBtn.getText();
 				
-				if (btnText.equals("CE") || btnText.equals("C") || btnText.equals("←") || btnText.equals("+/-")) {
-					switch (btnText) {
-						case "CE":
-							num1 = "0";
-							num2 = "0";
-							operator = "";
-							break;
-						case "C":
-							if (editFirstNum) {
-								num1 = "0";
-							}else {
-								num2 = "0";
-							}
-							break;
-						case "←":
-							if (editFirstNum) {
-								char num[] = new char[num1.length()];
-	
-								for (int i = 0; i < num1.length(); i++) {
-									num[i] = num1.charAt(i);
-								}
-															
-								num1 = new String(num);
-	
-								if (num1.equals("")) {
-									num1 = "0";
-								}
-							}else {
-								char num[] = new char[num2.length()];
-	
-								for (int i = 0; i < num2.length(); i++) {
-									num[i] = num2.charAt(i);
-								}
-															
-								num2 = new String(num);
-	
-								if (num2.equals("")) {
-									num2 = "0";
-								}
-							}
-							break;
+				switch (btnText) {
+				case "%":
+					
+					break;
+					
+				case "CE":
+					num1 = "";
+					num2 = "";
+					operator = "";	
+					textFieldNum.setText("0");
+					break;
+					
+				case "C":
+					textFieldNum.setText("0");
+
+					if (writingFirstNumber) {
+						num1 = textFieldNum.getText();
+					}else {
+						num2 = textFieldNum.getText();
 					}
-				}else if(btnText.equals("1/x") || btnText.equals("x2") || btnText.equals("2√x")){
-					switch (btnText) {
-						case "1/x":
-							result = 1/Double.parseDouble(num1);
-							operator = " entre ";
-							num2 = "1";
-							break;
-						case "x2":
-							result = Math.pow(Double.parseDouble(num1), 2);
-							operator = " elevado a ";
-							num2 = "2";
-							break;
-						case "2√x":
-							result = Math.sqrt(Double.parseDouble(num1));
-							operator = " raíz de ";
-							num2 = "2";
-							break;
-					}				
+					break;
 					
-					num1 = Double.toString(result);
-					
-					if (num1.length() > 4) {
-						char num[] = new char[4];
-						
-						for (int i = 0; i < 4; i++) {
+				case "←":
+					if (writingFirstNumber) {
+						char num[] = new char[num1.length()];
+
+						for (int i = 0; i < (num1.length()-1); i++) {
 							num[i] = num1.charAt(i);
 						}
 													
 						num1 = new String(num);
+
+						if (num1.equals("")) {
+							num1 = "0";
+						}
+					}else {
+						char num[] = new char[num2.length()];
+		
+						for (int i = 0; i < (num2.length()-1); i++) {
+							num[i] = num2.charAt(i);
+						}
+														
+						num2 = new String(num);
+		
+						if (num2.equals("")) {
+							num2 = "0";
+						}
+
 					}
+					break;
 					
-					editFirstNum = true;
+				case "1/x":
+					num2 = num1;
+					num1 = "1";
+					operator = "/";			
+					btns[23].doClick();
+					break;
 					
-					panelHistorial.add(new JLabel(num1 + operator + num2 + " = " + num1));
-					labelOperacionCompleta.setText(num1 + operator + num2 + " = " + num1);
-				}else if(btnText.equals("/") || btnText.equals("*") || btnText.equals("-") || btnText.equals("+") || btnText.equals("%")){
+				case "x2":
+					num2 = num1;
+					operator = "x";			
+					btns[23].doClick();
+					break;
+					
+				case "2√x":
+					operator = "2√x";		
+					btns[23].doClick();
+					break;
+					
+				case "/":
+				case "x":;
+				case "-":
+				case "+":
 					operator = btnText;
-					editFirstNum = false;
-				}else if(btnText.equals("=")) {
+					writingFirstNumber = false;
+					textFieldNum.setText("0");
+					break;
+					
+				case "=":
 					switch (operator) {
 						case "/":
 							result = Double.parseDouble(num1) / Double.parseDouble(num2);
 							break;
-						case "*":
+						case "x":
 							result = Double.parseDouble(num1) * Double.parseDouble(num2);			
 							break;
 						case "-":
@@ -201,67 +197,61 @@ public class MainView extends JFrame{
 						case "%":
 							result = Double.parseDouble(num1) % Double.parseDouble(num2);						
 							break;
+						case "2√x":
+							result = Math.sqrt(Double.parseDouble(num1));
+							break;
+						default:
+							result = Double.parseDouble(num1);
+							break;
+					}
+
+					if (Double.toString(result).length() > 4 && result != Double.POSITIVE_INFINITY) {
+						result = Math.round(result* 100.0) / 100.0;
 					}
 					
-					if (result == Double.POSITIVE_INFINITY) {
-						error = true;
-						num1 = "No se puede dividir entre cero";
+					if(result == Double.POSITIVE_INFINITY){
 						textFieldNum.setFont(new Font("Tahoma", Font.PLAIN, 35));
+						num1 = "No se puede dividir entre cero";
 					}else {
 						num1 = Double.toString(result);
 					}
 					
-					if (num1.length() > 4 && error) {
-						char num[] = new char[4];
-						
-						for (int i = 0; i < 4; i++) {
-							num[i] = num1.charAt(i);
-						}
-													
-						num1 = new String(num);
-					}
+					num2 = "";
+					result = 0;
+					writingFirstNumber = true;
+					operator = "";
 					
-					num2 = "0";
-					editFirstNum = true;
-					labelOperacionCompleta.setText(num1 + operator + num2 + " = " + num1);
-				}else {
-					textFieldNum.setFont(new Font("Tahoma", Font.PLAIN, 50));
-					
-					if (editFirstNum) {						
-						if (num1.equals("0") || num1.equals("No se puede dividir entre cero")) {
-							num1 = btnText;
-						}else {
-							num1 += btnText;
-						}
-					}else {					
-						if (num2.equals("0")) {
-							num2 = btnText;
-						}else {
-							num2 += btnText;
-						}
-					}
-				}
-				
-				if (editFirstNum) {
 					textFieldNum.setText(num1);
+					break;
+				default:
+					textFieldNum.setFont(new Font("Tahoma", Font.PLAIN, 50));
+
+					if (textFieldNum.getText().equals("0") || num1.equals("No se puede dividir entre cero")){
+						textFieldNum.setText(btnText);
+					}else {
+						textFieldNum.setText(textFieldNum.getText() + btnText);
+					}
+										
+					if (writingFirstNumber) {
+						num1 = textFieldNum.getText();
+					}else {
+						num2 = textFieldNum.getText();
+					}
+					break;
+				}
+
+				if(!num1.equals("No se puede dividir entre cero")) {
+					labelOperacionCompleta.setText(num1 + operator + num2);
 				}else {
-					textFieldNum.setText(num2);
+					labelOperacionCompleta.setText("No se puede dividir entre cero");
 				}
 				
-				if (num1.length() > 4) {
-					char num[] = new char[4];
-					
-					for (int i = 0; i < 4; i++) {
-						num[i] = num1.charAt(i);
-					}
-												
-					num1 = new String(num);
-				}				
+//				panelHistorial.add(new JLabel(num1 + operator + num2 + " = " + num1));
 			}
 		};
 		
 		for (int i = 0; i < btns.length; i++) {
-			if (btns[i].getText().equals("%") || btns[i].getText().equals("CE") || btns[i].getText().equals("C") || btns[i].getText().equals("←") || btns[i].getText().equals("1/x") || btns[i].getText().equals("x2") || btns[i].getText().equals("2√x") || btns[i].getText().equals("%") || btns[i].getText().equals("/") || btns[i].getText().equals("*") || btns[i].getText().equals("-") || btns[i].getText().equals("+")) {
+			if (btns[i].getText().equals("%") || btns[i].getText().equals("CE") || btns[i].getText().equals("C") || btns[i].getText().equals("←") || btns[i].getText().equals("1/x") || btns[i].getText().equals("x2") || btns[i].getText().equals("2√x") || btns[i].getText().equals("%") || btns[i].getText().equals("/") || btns[i].getText().equals("x") || btns[i].getText().equals("-") || btns[i].getText().equals("+")) {
 				btns[i].setBackground( new Color(240, 240, 240));
 			}else if(btns[i].getText().equals("=")) {
 				btns[i].setBackground( new Color(154, 186, 219));
