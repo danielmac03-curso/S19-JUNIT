@@ -7,11 +7,13 @@ import java.awt.event.*;
 public class MainView extends JFrame{
 		
 	private JPanel contentPane;
-	private String num1 = "";
-	private String num2 = "";
-	private String operacion = "";
+	public String num1 = "";
+	public String num2 = "";
+	public String operacion = "";
 	private double resultado; 
 	private boolean escribiendoPrimerOperador = true;
+	public JButton btns[] = new JButton[24];
+	private boolean negativo = false;
 
 	public MainView() {
 		setTitle("Calculadora");
@@ -57,8 +59,6 @@ public class MainView extends JFrame{
     	JButton eliminarHistorial = new JButton("X");
     	eliminarHistorial.setBounds(520, 527, 42, 23);
     	contentPane.add(eliminarHistorial);
-
-		JButton btns[] = new JButton[24];
 	
 		for (int i = 0; i < btns.length; i++) {
 			btns[i] = new JButton();
@@ -225,9 +225,23 @@ public class MainView extends JFrame{
 						
 						if (textFieldNum.getText().contains(".")) {
 							btns[22].setEnabled(false);
+						}						
+						break;
+					case "+/-":
+						if (!negativo) {
+							negativo = true;
+							textFieldNum.setText("-" + textFieldNum.getText());
+						}else{
+							negativo = false;
+							char num2[] = new char[(textFieldNum.getText().length()-1)];
+							
+							for (int i = 0; i < (textFieldNum.getText().length()-1); i++) {
+								num2[i] = textFieldNum.getText().charAt(i+1);
+							}
+														
+							textFieldNum.setText(new String(num2));
 						}
 						break;
-					
 					default:
 						textFieldNum.setFont(new Font("Tahoma", Font.PLAIN, 50));
 	
