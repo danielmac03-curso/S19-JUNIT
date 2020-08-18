@@ -179,6 +179,10 @@ public class MainView extends JFrame{
 						break;
 						
 					case "=":
+						if (num1.equals("")) {
+							num1 = "0";
+						}
+						
 						switch (operacion) {
 							case "/":
 								resultado = Double.parseDouble(num1) / Double.parseDouble(num2);
@@ -214,7 +218,7 @@ public class MainView extends JFrame{
 							JLabel tmpLabel = new JLabel(num1 + operacion + num2 + " = " + resultado, JLabel.CENTER);
 							tmpLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panelHistorial.add(tmpLabel);
-	
+							
 							textFieldNum.setText(Double.toString(resultado));
 						}
 						
